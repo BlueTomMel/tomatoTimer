@@ -1,0 +1,217 @@
+/* Flash effect for effective time value */
+@keyframes flashEffective {
+  0% { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff; }
+  10% { text-shadow: 0 0 80px #fff, 0 0 160px #fff, 0 0 40px #0ff, 0 0 120px #0ff; }
+  90% { text-shadow: 0 0 80px #fff, 0 0 160px #fff, 0 0 40px #0ff, 0 0 120px #0ff; }
+  100% { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff; }
+}
+
+:root {
+  --digit-width: 150px;
+  --digit-height: 200px;
+  --digit-font-size: 140px;
+  --colon-size: 120px;
+  --gap: 20px;
+  --border-radius: 28px;
+}
+
+/* Small tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+  .flip-clock-container {
+    padding: 10px 5px;
+  }
+}
+
+/* Large tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    --digit-width: 120px;
+    --digit-height: 160px;
+    --digit-font-size: 110px;
+    --colon-size: 95px;
+    --gap: 15px;
+    --border-radius: 22px;
+  }
+}
+
+/* Large desktops and 4K */
+@media (min-width: 1920px) {
+  :root {
+    --digit-width: 200px;
+    --digit-height: 270px;
+    --digit-font-size: 190px;
+    --colon-size: 160px;
+    --gap: 30px;
+    --border-radius: 35px;
+  }
+}
+
+/* 4K and ultra-wide */
+@media (min-width: 2560px) {
+  :root {
+    --digit-width: 280px;
+    --digit-height: 380px;
+    --digit-font-size: 270px;
+    --colon-size: 230px;
+    --gap: 40px;
+    --border-radius: 45px;
+  }
+}
+
+body {
+  background: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 10px;
+  font-family: 'Quicksand', Arial, sans-serif;
+  overflow-x: hidden;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Emergency single-line enforcement for all screens */
+@media (max-width: 600px) {
+  .flip-clock-container {
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    min-height: calc(var(--digit-height) + 40px);
+  }
+  
+  .flip-clock {
+    width: auto;
+    transform-origin: center center;
+    transform: scale(min(1, calc(95vw / (6 * var(--digit-width) + 2 * var(--colon-size) + 5 * var(--gap)))));
+    margin: 0 auto;
+    white-space: nowrap;
+    display: inline-flex;
+  }
+  
+  .digit {
+    overflow: visible;
+  }
+}
+
+/* Extreme failsafe for any remaining edge cases */
+@media (max-width: 480px) {
+  .flip-clock-container {
+    padding: 0 5px;
+    min-height: calc(var(--digit-height) + 30px);
+  }
+  
+  .flip-clock {
+    transform: scale(min(1, calc(92vw / (6 * var(--digit-width) + 2 * var(--colon-size) + 5 * var(--gap)))));
+    margin: 0 auto;
+    transform-origin: center center;
+  }
+  
+  :root {
+    --digit-width: 60px;
+    --digit-height: 85px;
+    --digit-font-size: 55px;
+    --colon-size: 45px;
+    --gap: 5px;
+    --border-radius: 10px;
+  }
+  
+  .digit {
+    overflow: visible;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 320px) {
+  .flip-clock-container {
+    padding: 0 2px;
+    min-height: calc(var(--digit-height) + 20px);
+  }
+  
+  .flip-clock {
+    transform: scale(min(1, calc(98vw / (6 * var(--digit-width) + 2 * var(--colon-size) + 5 * var(--gap)))));
+    transform-origin: center center;
+  }
+  
+  :root {
+    --digit-width: 45px;
+    --digit-height: 65px;
+    --digit-font-size: 40px;
+    --colon-size: 30px;
+    --gap: 2px;
+    --border-radius: 8px;
+  }
+  
+  .digit {
+    overflow: visible;
+    border-radius: var(--border-radius);
+  }
+  
+  .digit .top span, .digit .bottom span, .digit .flip span {
+    font-size: calc(var(--digit-font-size) - 2px);
+  }
+}
+
+/* Landscape mobile - maximize space utilization */
+@media (max-height: 500px) and (orientation: landscape) {
+  body {
+    justify-content: center;
+    padding: 2px;
+  }
+  
+  .flip-clock-container {
+    padding: 2px 1px;
+    min-height: calc(var(--digit-height) + 10px);
+    width: 100%;
+    align-items: center;
+    flex-grow: 1;
+  }
+  
+  .flip-clock {
+    margin: 0;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .controls {
+    margin-bottom: 3px;
+    padding: 4px 6px;
+  }
+  
+  .hideable-calculator {
+    margin-top: 3px;
+    font-size: clamp(12px, 3vw, 18px);
+  }
+  
+  .hideable-add-time {
+    margin-top: 3px;
+  }
+  
+  button {
+    padding: clamp(4px, 1.5vw, 8px) clamp(8px, 2.5vw, 16px);
+    font-size: clamp(12px, 2.5vw, 18px);
+  }
+  
+  .digit {
+    overflow: visible;
+  }
+  
+  .digit .top span, .digit .bottom span, .digit .flip span {
+    overflow: visible;
+  }
+}

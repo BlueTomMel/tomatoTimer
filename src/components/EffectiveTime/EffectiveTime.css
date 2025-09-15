@@ -1,0 +1,188 @@
+/* Effective time today calculator */
+.hideable-calculator {
+  margin-top: clamp(15px, 3vw, 30px);
+  color: #0ff;
+  font-size: clamp(16px, 4vw, 28px);
+  font-family: 'Quicksand', Arial, sans-serif;
+  font-weight: 700;
+  text-shadow: 0 0 10px #0ff;
+  transition: opacity 0.3s ease;
+  text-align: center;
+  max-width: 95vw;
+}
+
+.hideable-calculator.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.effective-time-value {
+  color: #0ff;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  text-shadow: inherit;
+}
+
+.effective-time-value.flash {
+  animation: flashEffective 1s linear 1;
+  text-shadow:
+    0 0 80px #fff,
+    0 0 160px #fff,
+    0 0 40px #0ff,
+    0 0 120px #0ff;
+}
+
+/* Add effective time control */
+.hideable-add-time {
+  margin-top: clamp(10px, 2vw, 20px);
+  transition: opacity 0.3s ease;
+  text-align: center;
+  max-width: 95vw;
+}
+
+.hideable-add-time.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.add-time-content {
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.4);
+  padding: clamp(8px, 2vw, 15px);
+  border-radius: clamp(6px, 1.5vw, 12px);
+  border: 1px solid rgba(0, 255, 0, 0.2);
+  display: inline-block;
+}
+
+.add-time-label {
+  color: #0ff;
+  font-size: clamp(12px, 3vw, 20px);
+  font-family: 'Quicksand', Arial, sans-serif;
+  font-weight: 500;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+  margin-right: clamp(8px, 2vw, 12px);
+}
+
+.pending-time-display {
+  color: #0ff;
+  font-size: clamp(14px, 3.5vw, 24px);
+  font-family: 'Quicksand', Arial, sans-serif;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+  margin-right: clamp(8px, 2vw, 12px);
+  min-width: clamp(60px, 12vw, 80px);
+  display: inline-block;
+}
+
+.add-time-buttons {
+  display: inline-flex;
+  gap: clamp(4px, 1vw, 8px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.time-btn {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  color: #0ff;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: clamp(3px, 0.8vw, 6px);
+  padding: clamp(4px, 1vw, 8px) clamp(8px, 2vw, 12px);
+  font-size: clamp(10px, 2.5vw, 16px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Quicksand', Arial, sans-serif;
+  font-weight: 600;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+  white-space: nowrap;
+  /* iOS button fixes */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.time-btn.flash {
+  -webkit-animation: flashGlow 1s infinite alternate;
+  animation: flashGlow 1s infinite alternate;
+  box-shadow: 0 0 20px 5px #0ff, 0 0 40px 10px #0ff;
+}
+
+@-webkit-keyframes flashGlow {
+  0% { box-shadow: 0 0 10px 2px #0ff, 0 0 20px 4px #0ff; }
+  100% { box-shadow: 0 0 30px 10px #0ff, 0 0 60px 20px #0ff; }
+}
+
+@keyframes flashGlow {
+  0% { box-shadow: 0 0 10px 2px #0ff, 0 0 20px 4px #0ff; }
+  100% { box-shadow: 0 0 30px 10px #0ff, 0 0 60px 20px #0ff; }
+}
+
+.time-btn:hover, .time-btn:focus {
+  background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+  border-color: rgba(0, 255, 255, 0.6);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  outline: none;
+}
+
+/* Touch-specific hover for mobile */
+@media (hover: none) {
+  .time-btn:hover {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border-color: rgba(0, 255, 255, 0.3);
+    box-shadow: none;
+  }
+  
+  .time-btn:active {
+    background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+    border-color: rgba(0, 255, 255, 0.6);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+  }
+}
+
+.time-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Timer tag display */
+.timer-tag-display {
+  color: #0ff;
+  font-size: clamp(14px, 3.5vw, 24px);
+  font-family: 'Quicksand', Arial, sans-serif;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+  text-align: center;
+  margin-bottom: clamp(10px, 2vw, 15px);
+  padding: clamp(6px, 1.5vw, 10px) clamp(12px, 3vw, 20px);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 255, 0, 0.2);
+  border-radius: clamp(6px, 1.5vw, 12px);
+  backdrop-filter: blur(5px);
+  transition: opacity 0.3s ease;
+  max-width: 95vw;
+}
+
+.timer-tag-display.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Mobile adjustments for add time control */
+@media (max-width: 480px) {
+  .add-time-content {
+    padding: 8px;
+  }
+  
+  .add-time-buttons {
+    margin-top: 5px;
+    width: 100%;
+  }
+  
+  .time-btn {
+    flex: 1;
+    min-width: 50px;
+  }
+}

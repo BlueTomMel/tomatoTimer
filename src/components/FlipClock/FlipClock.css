@@ -1,0 +1,331 @@
+.flip-clock-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  overflow: visible;
+  padding: 20px 0;
+  box-sizing: border-box;
+  min-height: calc(var(--digit-height) + 40px);
+}
+
+.flip-clock {
+  display: flex;
+  gap: var(--gap);
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  flex-wrap: nowrap;
+  justify-content: center;
+  max-width: 95vw;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.digit {
+  position: relative;
+  width: var(--digit-width);
+  height: var(--digit-height);
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.3) 0%, rgba(42, 42, 42, 0.3) 100%);
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 24px rgba(0, 255, 0, 0.1), 
+              0 0 40px rgba(0, 255, 0, 0.05),
+              inset 0 0 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--digit-font-size);
+  font-family: 'Quicksand', Arial, sans-serif;
+  font-weight: 700;
+  color: #0ff;
+  margin: 0 clamp(1px, 0.3vw, 2px);
+  overflow: visible;
+  letter-spacing: 0;
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  flex-shrink: 0;
+  -webkit-perspective: 1000px;
+  perspective: 1000px;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.digit .top, .digit .bottom {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: visible;
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.3) 0%, rgba(42, 42, 42, 0.3) 100%);
+  z-index: 1;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.digit .top {
+  top: 0;
+  border-bottom: 2px solid rgba(0, 255, 0, 0.2);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.digit .bottom {
+  bottom: 0;
+  border-top: 2px solid rgba(0, 255, 0, 0.2);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.digit .top span, .digit .bottom span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: var(--digit-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--digit-font-size) * 0.95);
+  font-family: 'Quicksand', Arial, sans-serif;
+  font-weight: 700;
+  color: #0ff;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.6),
+               0 0 10px rgba(0, 255, 255, 0.3);
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.digit .top span {
+  top: 0;
+}
+
+.digit .bottom span {
+  top: calc(var(--digit-height) / -2);
+}
+
+.digit .flip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(135deg, rgba(10, 10, 10, 0.3) 0%, rgba(26, 26, 26, 0.3) 100%);
+  color: #0ff;
+  overflow: visible;
+  -webkit-transform-origin: bottom;
+  transform-origin: bottom;
+  -webkit-animation: flip 0.5s forwards;
+  animation: flip 0.5s forwards;
+  z-index: 2;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.digit .flip span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: var(--digit-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--digit-font-size) * 0.95);
+  font-family: 'Quicksand', Arial, sans-serif;
+  font-weight: 700;
+  color: #0ff;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.6),
+               0 0 10px rgba(0, 255, 255, 0.3);
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+@-webkit-keyframes flip {
+  0% { -webkit-transform: rotateX(0deg); transform: rotateX(0deg); }
+  100% { -webkit-transform: rotateX(-90deg); transform: rotateX(-90deg); }
+}
+
+@keyframes flip {
+  0% { -webkit-transform: rotateX(0deg); transform: rotateX(0deg); }
+  100% { -webkit-transform: rotateX(-90deg); transform: rotateX(-90deg); }
+}
+
+.colon {
+  font-size: var(--colon-size);
+  color: #0ff;
+  margin: 0 clamp(2px, 1vw, 15px);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  font-family: 'Quicksand', Arial, sans-serif;
+  font-weight: 700;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.6),
+               0 0 10px rgba(0, 255, 255, 0.3);
+  -webkit-animation: pulse 2s infinite;
+  animation: pulse 2s infinite;
+  flex-shrink: 0;
+}
+
+@-webkit-keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Cyberpunk fluorescent tube flickering effects */
+@keyframes fluorescentFlicker {
+  0% { 
+    opacity: 1;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.6), 0 0 10px rgba(0, 255, 255, 0.3), 0 0 15px rgba(0, 255, 255, 0.2);
+    filter: brightness(1);
+  }
+  2% { 
+    opacity: 0.4;
+    text-shadow: 0 0 2px rgba(0, 255, 255, 0.3), 0 0 5px rgba(0, 255, 255, 0.1);
+    filter: brightness(0.7);
+  }
+  3% { 
+    opacity: 1;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.8), 0 0 15px rgba(0, 255, 255, 0.4), 0 0 20px rgba(0, 255, 255, 0.2);
+    filter: brightness(1.2);
+  }
+  5% { 
+    opacity: 0.2;
+    text-shadow: 0 0 1px rgba(0, 255, 255, 0.2);
+    filter: brightness(0.5);
+  }
+  6% { 
+    opacity: 0.9;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.7), 0 0 12px rgba(0, 255, 255, 0.3);
+    filter: brightness(1.1);
+  }
+  8% { 
+    opacity: 0.3;
+    text-shadow: 0 0 2px rgba(0, 255, 255, 0.2);
+    filter: brightness(0.6);
+  }
+  9% { 
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.9), 0 0 20px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.2);
+    filter: brightness(1.3);
+  }
+  12% { 
+    opacity: 0.1;
+    text-shadow: none;
+    filter: brightness(0.3);
+  }
+  13% { 
+    opacity: 0.8;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.6), 0 0 10px rgba(0, 255, 255, 0.3);
+    filter: brightness(1);
+  }
+  15%, 100% { 
+    opacity: 1;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.6), 0 0 10px rgba(0, 255, 255, 0.3);
+    filter: brightness(1);
+  }
+}
+
+@keyframes fluorescentBuzz {
+  0% { 
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.6), 0 0 10px rgba(0, 255, 255, 0.3);
+    transform: translateY(0);
+  }
+  10% { 
+    text-shadow: 0 0 3px rgba(0, 255, 255, 0.4), 0 0 6px rgba(0, 255, 255, 0.2);
+    transform: translateY(-0.5px);
+  }
+  20% { 
+    text-shadow: 0 0 7px rgba(0, 255, 255, 0.8), 0 0 14px rgba(0, 255, 255, 0.4);
+    transform: translateY(0.5px);
+  }
+  30% { 
+    text-shadow: 0 0 2px rgba(0, 255, 255, 0.3), 0 0 4px rgba(0, 255, 255, 0.1);
+    transform: translateY(-0.3px);
+  }
+  40% { 
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.7), 0 0 12px rgba(0, 255, 255, 0.3);
+    transform: translateY(0.3px);
+  }
+  50% { 
+    text-shadow: 0 0 4px rgba(0, 255, 255, 0.5), 0 0 8px rgba(0, 255, 255, 0.2);
+    transform: translateY(0);
+  }
+  100% { 
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.6), 0 0 10px rgba(0, 255, 255, 0.3);
+    transform: translateY(0);
+  }
+}
+
+@keyframes fluorescentStartup {
+  0% { 
+    opacity: 0;
+    text-shadow: none;
+    filter: brightness(0);
+  }
+  5% { 
+    opacity: 0.2;
+    text-shadow: 0 0 1px rgba(0, 255, 255, 0.2);
+    filter: brightness(0.3);
+  }
+  8% { 
+    opacity: 0;
+    text-shadow: none;
+    filter: brightness(0);
+  }
+  12% { 
+    opacity: 0.5;
+    text-shadow: 0 0 3px rgba(0, 255, 255, 0.4);
+    filter: brightness(0.6);
+  }
+  15% { 
+    opacity: 0.1;
+    text-shadow: 0 0 1px rgba(0, 255, 255, 0.1);
+    filter: brightness(0.2);
+  }
+  20% { 
+    opacity: 0.8;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.6), 0 0 10px rgba(0, 255, 255, 0.3);
+    filter: brightness(0.9);
+  }
+  25% { 
+    opacity: 0.3;
+    text-shadow: 0 0 2px rgba(0, 255, 255, 0.2);
+    filter: brightness(0.4);
+  }
+  30%, 100% { 
+    opacity: 1;
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.6), 0 0 10px rgba(0, 255, 255, 0.3);
+    filter: brightness(1);
+  }
+}
+
+/* Fluorescent tube effect classes */
+.digit.fluorescent-flicker {
+  animation: fluorescentFlicker 1s ease-in-out;
+}
+
+.digit.fluorescent-buzz {
+  animation: fluorescentBuzz 0.8s ease-in-out;
+}
+
+.digit.fluorescent-startup {
+  animation: fluorescentStartup 1.2s ease-in-out;
+}
+
+.digit.fluorescent-flicker span {
+  animation: fluorescentFlicker 1s ease-in-out;
+}
+
+.digit.fluorescent-buzz span {
+  animation: fluorescentBuzz 0.8s ease-in-out;
+}
+
+.digit.fluorescent-startup span {
+  animation: fluorescentStartup 1.2s ease-in-out;
+}
