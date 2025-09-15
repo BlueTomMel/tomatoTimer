@@ -1,7 +1,7 @@
 {
   "name": "cyberpunk-timer",
   "version": "1.0.0",
-  "homepage": "https://YOUR_GITHUB_USERNAME.github.io/cyberpunk-timer",
+  "homepage": "https://BlueTomMel.github.io/tomatoTimer",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",

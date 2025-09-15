@@ -1,6 +1,12 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useMemo } from 'react';
 
 export const useCyberpunkGlitch = () => {
+  // Detect high-performance devices and reduce glitch frequency
+  const isHighPerformanceDevice = useMemo(() => {
+    const cores = window.navigator.hardwareConcurrency || 4;
+    const memory = window.navigator.deviceMemory || 4;
+    return cores > 8 || memory > 8;
+  }, []);
   const triggerRandomGlitch = useCallback(() => {
     const digits = document.querySelectorAll('.digit');
     if (digits.length === 0) return;
@@ -50,20 +56,23 @@ export const useCyberpunkGlitch = () => {
   }, []);
 
   const startCyberpunkGlitches = useCallback(() => {
-    // Trigger fluorescent flicker every 4-10 seconds randomly
+    // Reduce glitch frequency on high-performance devices
+    const baseDelay = isHighPerformanceDevice ? 8000 : 4000; // 8-16s vs 4-10s
+    const variableDelay = isHighPerformanceDevice ? 8000 : 6000;
+    
     function scheduleNextGlitch() {
-      const delay = Math.random() * 6000 + 4000; // 4-10 seconds
+      const delay = Math.random() * variableDelay + baseDelay;
       setTimeout(() => {
         triggerRandomGlitch();
         scheduleNextGlitch();
       }, delay);
     }
     
-    // Initial delay before first flicker
+    // Longer initial delay for high-performance devices
     setTimeout(() => {
       scheduleNextGlitch();
-    }, 3000);
-  }, [triggerRandomGlitch]);
+    }, isHighPerformanceDevice ? 5000 : 3000);
+  }, [triggerRandomGlitch, isHighPerformanceDevice]);
 
   useEffect(() => {
     startCyberpunkGlitches();

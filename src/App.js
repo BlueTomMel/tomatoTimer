@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import './App.css';
 import MatrixBackground from './components/MatrixBackground';
 import FlipClock from './components/FlipClock/FlipClock';
@@ -40,7 +40,7 @@ function App() {
     }
   }, [mode]);
 
-  // Countdown mode
+  // Countdown mode - optimized with proper dependencies
   useEffect(() => {
     if (isCountdownRunning && countdown > 0) {
       const countdownInterval = setInterval(() => {
@@ -58,7 +58,7 @@ function App() {
 
       return () => clearInterval(countdownInterval);
     }
-  }, [isCountdownRunning, countdown, countdownTime]);
+  }, [isCountdownRunning, countdown, countdownTime, playNotificationSound, showControlsTemporarily]);
 
   // Update display time based on mode
   useEffect(() => {

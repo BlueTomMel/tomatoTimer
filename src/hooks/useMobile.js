@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 export const useMobile = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -8,32 +8,42 @@ export const useMobile = () => {
     width: window.innerWidth,
     height: window.innerHeight
   });
+  
+  // Use refs to prevent excessive recalculations
+  const lastCalculationRef = useRef(0);
+  const calculationCooldown = 100; // Minimum 100ms between calculations
 
-  useEffect(() => {
-    const checkMobile = () => {
-      const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                    (window.innerWidth <= 768) ||
-                    ('ontouchstart' in window);
+  const checkMobile = useCallback(() => {
+    const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                  (window.innerWidth <= 768) ||
+                  ('ontouchstart' in window);
+    
+    const landscapeMobile = mobile && 
+                           (window.innerWidth > window.innerHeight) && 
+                           (window.innerHeight <= 500);
+    
+    const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ||
+                /CriOS|FxiOS|EdgiOS/.test(navigator.userAgent) ||
+                (window.navigator.standalone !== undefined);
+
+    setIsMobile(mobile);
+    setIsLandscapeMobile(landscapeMobile);
+    setIsIOS(ios);
+    setScreenSize({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+  }, []);
+
+    const calculateOptimalSizes = useCallback(() => {
+      // Throttle calculations to improve performance
+      const now = Date.now();
+      if (now - lastCalculationRef.current < calculationCooldown) {
+        return null;
+      }
+      lastCalculationRef.current = now;
       
-      const landscapeMobile = mobile && 
-                             (window.innerWidth > window.innerHeight) && 
-                             (window.innerHeight <= 500);
-      
-      const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ||
-                  /CriOS|FxiOS|EdgiOS/.test(navigator.userAgent) ||
-                  (window.navigator.standalone !== undefined);
-
-      setIsMobile(mobile);
-      setIsLandscapeMobile(landscapeMobile);
-      setIsIOS(ios);
-      setScreenSize({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-    };
-
-    const calculateOptimalSizes = () => {
       if (!isMobile) return null;
 
       const availableWidth = window.innerWidth * 0.98;
@@ -88,9 +98,9 @@ export const useMobile = () => {
         gap: Math.floor(gap),
         borderRadius: Math.max(8, Math.floor(digitWidth * 0.12))
       };
-    };
+    }, [isMobile, isLandscapeMobile]);
 
-    const applySizes = (sizes) => {
+    const applySizes = useCallback((sizes) => {
       if (!sizes) return;
       
       const root = document.documentElement;
@@ -100,25 +110,33 @@ export const useMobile = () => {
       root.style.setProperty('--colon-size', sizes.colonSize + 'px');
       root.style.setProperty('--gap', sizes.gap + 'px');
       root.style.setProperty('--border-radius', sizes.borderRadius + 'px');
-    };
+    }, []);
 
-    const handleResize = () => {
+    // Throttled resize handler
+    const handleResize = useCallback(() => {
       checkMobile();
       const sizes = calculateOptimalSizes();
-      applySizes(sizes);
-    };
+      if (sizes) {
+        applySizes(sizes);
+      }
+    }, [checkMobile, calculateOptimalSizes, applySizes]);
 
-    const handleOrientationChange = () => {
+    const handleOrientationChange = useCallback(() => {
       setTimeout(() => {
         checkMobile();
         const sizes = calculateOptimalSizes();
-        applySizes(sizes);
+        if (sizes) {
+          applySizes(sizes);
+        }
       }, 300);
-    };
+    }, [checkMobile, calculateOptimalSizes, applySizes]);
 
+  useEffect(() => {
     checkMobile();
     const sizes = calculateOptimalSizes();
-    applySizes(sizes);
+    if (sizes) {
+      applySizes(sizes);
+    }
 
     window.addEventListener('resize', handleResize);
     window.addEventListener('orientationchange', handleOrientationChange);
@@ -127,7 +145,7 @@ export const useMobile = () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('orientationchange', handleOrientationChange);
     };
-  }, [isMobile, isLandscapeMobile]);
+  }, [checkMobile, calculateOptimalSizes, applySizes, handleResize, handleOrientationChange]);
 
   return {
     isMobile,
