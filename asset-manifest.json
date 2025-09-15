@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/tomatoTimer/static/css/main.6c8fdb37.css",
-    "main.js": "/tomatoTimer/static/js/main.c9985985.js",
+    "main.js": "/tomatoTimer/static/js/main.58331624.js",
     "index.html": "/tomatoTimer/index.html",
     "main.6c8fdb37.css.map": "/tomatoTimer/static/css/main.6c8fdb37.css.map",
-    "main.c9985985.js.map": "/tomatoTimer/static/js/main.c9985985.js.map"
+    "main.58331624.js.map": "/tomatoTimer/static/js/main.58331624.js.map"
   },
   "entrypoints": [
     "static/css/main.6c8fdb37.css",
-    "static/js/main.c9985985.js"
+    "static/js/main.58331624.js"
   ]
 }
